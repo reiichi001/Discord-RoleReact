@@ -1,5 +1,5 @@
 // Import constructors, configuration and login the client
-const { Client, RichEmbed, Emoji, MessageReaction } = require('discord.js');
+const { Client, MessageEmbed, Emoji, MessageReaction } = require('discord.js');
 const CONFIG = require('./config');
 
 const client = new Client({ disableEveryone: true });
@@ -86,7 +86,7 @@ client.on("message", message => {
         if (!CONFIG.embedFooter || (CONFIG.embedMessage === ''))
             throw "The 'embedFooter' property is not set in the config.js file. Please do this!";
 
-        const roleEmbed = new RichEmbed()
+        const roleEmbed = new MessageEmbed()
             .setDescription(CONFIG.embedMessage)
             .setFooter(CONFIG.embedFooter);
 
@@ -101,10 +101,10 @@ client.on("message", message => {
         if (fields.length > 25) throw "That maximum roles that can be set for an embed is 25!";
 
         for (const { emoji, role } of fields) {
-            if (!message.guild.roles.find(r => r.name === role))
+            if (!message.guild.roles.cache.find(r => r.name === role))
                 throw `The role '${role}' does not exist!`;
 
-            const customEmote = client.emojis.find(e => e.name === emoji);
+            const customEmote = client.emojis.cache.find(e => e.name === emoji);
             
             if (!customEmote) roleEmbed.addField(emoji, role, true);
             else roleEmbed.addField(customEmote, role, true);
@@ -113,7 +113,7 @@ client.on("message", message => {
         message.channel.send(roleEmbed).then(async m => {
             for (const r of CONFIG.reactions) {
                 const emoji = r;
-                const customCheck = client.emojis.find(e => e.name === emoji);
+                const customCheck = client.emojis.cache.find(e => e.name === emoji);
                 
                 if (!customCheck) await m.react(emoji);
                 else await m.react(customCheck.id);
@@ -133,18 +133,18 @@ client.on('raw', async event => {
     if (!events.hasOwnProperty(event.t)) return;
 
     const { d: data } = event;
-    const user = client.users.get(data.user_id);
-    const channel = client.channels.get(data.channel_id);
+    const user = client.users.cache.get(data.user_id);
+    const channel = client.channels.cache.get(data.channel_id);
 
-    const message = await channel.fetchMessage(data.message_id);
-    const member = message.guild.members.get(user.id);
+    const message = await channel.messages.fetch(data.message_id);
+    const member = message.guild.members.cache.get(user.id);
 
     const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
-    let reaction = message.reactions.get(emojiKey);
+    let reaction = message.reactions.cache.get(emojiKey);
 
     if (!reaction) {
         // Create an object that can be passed through the event like normal
-        const emoji = new Emoji(client.guilds.get(data.guild_id), data.emoji);
+        const emoji = new Emoji(client.guilds.cache.get(data.guild_id), data.emoji);
         reaction = new MessageReaction(message, emoji, 1, data.user_id === client.user.id);
     }
 
@@ -161,19 +161,19 @@ client.on('raw', async event => {
             const role = message.content.match(re)[1];
 
             if (member.id !== client.user.id) {
-                const guildRole = message.guild.roles.find(r => r.name === role);
-                if (event.t === "MESSAGE_REACTION_ADD") member.addRole(guildRole.id);
-                else if (event.t === "MESSAGE_REACTION_REMOVE") member.removeRole(guildRole.id);
+                const guildRole = message.guild.roles.cache.find(r => r.name === role);
+                if (event.t === "MESSAGE_REACTION_ADD") member.roles.add(guildRole.id);
+                else if (event.t === "MESSAGE_REACTION_REMOVE") member.roles.remove(guildRole.id);
             }
         } else if (CONFIG.embed && (message.embeds.length >= 1)) {
             const fields = message.embeds[0].fields;
 
             for (const { name, value } of fields) {
                 if (member.id !== client.user.id) {
-                    const guildRole = message.guild.roles.find(r => r.name === value);
+                    const guildRole = message.guild.roles.cache.find(r => r.name === value);
                     if ((name === reaction.emoji.name) || (name === reaction.emoji.toString())) {
-                        if (event.t === "MESSAGE_REACTION_ADD") member.addRole(guildRole.id);
-                        else if (event.t === "MESSAGE_REACTION_REMOVE") member.removeRole(guildRole.id);
+                        if (event.t === "MESSAGE_REACTION_ADD") member.roles.add(guildRole.id);
+                        else if (event.t === "MESSAGE_REACTION_REMOVE") member.roles.remove(guildRole.id);
                     }
                 }
             }
