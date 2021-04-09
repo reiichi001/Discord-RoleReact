@@ -8,25 +8,25 @@ Originally by <a href="https://github.com/Sam-DevZ/Discord-RoleReact">https://gi
 <hr>
 
 <a href="https://travis-ci.com/reiichi001/Discord-RoleReact">
-    <img src="https://img.shields.io/travis/com/Sam-DevZ/Discord-RoleReact.svg?style=for-the-badge" alt="Build">
+    <img src="https://img.shields.io/travis/com/reiichi001/Discord-RoleReact.svg?style=for-the-badge" alt="Build">
 </a>
 
 <a href="https://github.com/reiichi001/Discord-RoleReact">
-    <img src="https://img.shields.io/github/languages/top/Sam-DevZ/Discord-RoleReact.svg?colorB=f0db4f&style=for-the-badge" alt="Languages">
+    <img src="https://img.shields.io/github/languages/top/reiichi001/Discord-RoleReact.svg?colorB=f0db4f&style=for-the-badge" alt="Languages">
 </a>
 
 <br>
 
 <a href="https://github.com/reiichi001/Discord-RoleReact">
-    <img src="https://img.shields.io/github/package-json/v/Sam-DevZ/Discord-RoleReact.svg?colorB=Orange&style=for-the-badge" alt="Version">
+    <img src="https://img.shields.io/github/package-json/v/reiichi001/Discord-RoleReact.svg?colorB=Orange&style=for-the-badge" alt="Version">
 </a>
 
 <a href="https://github.com/reiichi001/Discord-RoleReact/issues">
-    <img src="https://img.shields.io/github/issues/Sam-DevZ/Discord-RoleReact.svg?style=for-the-badge&colorB=37f149" alt="Issues">
+    <img src="https://img.shields.io/github/issues/reiichi001/Discord-RoleReact.svg?style=for-the-badge&colorB=37f149" alt="Issues">
 </a>
 
 <a href="https://github.com/reiichi001/Discord-RoleReact/pulls">
-    <img src="https://img.shields.io/github/issues-pr/Sam-DevZ/Discord-RoleReact.svg?style=for-the-badge&colorB=37f149" alt="Pull Request">
+    <img src="https://img.shields.io/github/issues-pr/reiichi001/Discord-RoleReact.svg?style=for-the-badge&colorB=37f149" alt="Pull Request">
 </a>
 
 <br>
